@@ -69,6 +69,25 @@
 - Component tests: React Testing Library / React Native Testing Library
 - E2E: Playwright (web), Maestro (mobile)
 
+### Testing Protocol — "test the app" means this exact sequence
+When asked to test the app (or any feature), always run in this order and stop if any step fails:
+
+1. **Unit tests** — `pnpm test` (Vitest across all packages and functions)
+   - All tests must pass before proceeding
+   - Fix any failures before moving to the next step
+
+2. **Type check** — `pnpm typecheck` (tsc --noEmit across all packages)
+   - No type errors allowed
+
+3. **Build** — `pnpm build`
+   - Confirms the production build is not broken
+
+4. **UI / E2E** — open the browser and manually verify the affected user flows
+   - Confirm the feature works end-to-end in the local emulator environment
+   - For automated E2E: `pnpm --filter @mma/web exec playwright test` (web)
+
+Never skip steps or reorder them. A passing UI does not mean the code is correct if unit tests are failing.
+
 ### Git & CI
 - Conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `test:`
 - CI runs lint + typecheck + test on every PR
