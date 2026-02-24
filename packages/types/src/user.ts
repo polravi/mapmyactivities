@@ -15,7 +15,7 @@ export const SubscriptionSchema = z.object({
 });
 
 export const UserSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().min(1),
   email: z.string().email(),
   displayName: z.string().min(1).max(100),
   photoURL: z.string().url().nullable().default(null),

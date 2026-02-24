@@ -1,15 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@mma/store';
-import { CreateTaskInputSchema, QUADRANT_INFO } from '@mma/types';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import { useAuthStore, useTaskStore } from '@mma/store';
+import { UpdateTaskInputSchema, QUADRANT_INFO } from '@mma/types';
 import type { TaskPriority } from '@mma/types';
-import { createTask } from '@/lib/taskService';
+import { updateTask } from '@/lib/taskService';
 
-export default function CreateTaskPage() {
+export default function EditTaskPage() {
   const router = useRouter();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuthStore();
+  const { tasks } = useTaskStore();
+
+  const task = tasks.find((t) => t.id === id);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -20,11 +24,30 @@ export default function CreateTaskPage() {
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    if (task) {
+      setTitle(task.title);
+      setDescription(task.description ?? '');
+      setPriority(task.priority);
+      setQuadrant(task.eisenhowerQuadrant);
+      setDueDate(task.dueDate ? task.dueDate.split('T')[0]! : '');
+      setTags(task.tags.join(', '));
+    }
+  }, [task]);
+
+  if (!task) {
+    return (
+      <div className="max-w-xl">
+        <p className="text-gray-500">Task not found.</p>
+      </div>
+    );
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
 
-    const result = CreateTaskInputSchema.safeParse({
+    const result = UpdateTaskInputSchema.safeParse({
       title,
       description: description || undefined,
       priority,
@@ -38,17 +61,14 @@ export default function CreateTaskPage() {
       return;
     }
 
-    if (!user) {
-      setError('Not authenticated');
-      return;
-    }
+    if (!user) return;
 
     setSaving(true);
     try {
-      await createTask(user.id, result.data);
+      await updateTask(user.id, id, result.data);
       router.push('/dashboard');
     } catch {
-      setError('Failed to save task. Please try again.');
+      setError('Failed to update task. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -56,7 +76,7 @@ export default function CreateTaskPage() {
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">New Task</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Task</h1>
 
       {error && (
         <div className="bg-red-50 text-red-700 rounded-lg p-3 mb-4 text-sm">{error}</div>
@@ -70,9 +90,7 @@ export default function CreateTaskPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="What needs to be done?"
             required
-            data-testid="task-title-input"
           />
         </div>
 
@@ -82,7 +100,6 @@ export default function CreateTaskPage() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 min-h-[80px] focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Add details..."
           />
         </div>
 
@@ -163,9 +180,8 @@ export default function CreateTaskPage() {
             type="submit"
             disabled={saving}
             className="flex-1 bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 disabled:opacity-50"
-            data-testid="save-task-button"
           >
-            {saving ? 'Saving...' : 'Save Task'}
+            {saving ? 'Saving...' : 'Update Task'}
           </button>
         </div>
       </form>
