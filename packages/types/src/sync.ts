@@ -5,10 +5,7 @@ export const SyncPullRequestSchema = z.object({
   schemaVersion: z.number().int().default(1),
 });
 
-export const SyncChangeSchema = z.object({
-  id: z.string(),
-  [z.string().describe('field')]: z.unknown(),
-});
+export const SyncChangeSchema = z.record(z.unknown());
 
 export const SyncPullResponseSchema = z.object({
   changes: z.object({

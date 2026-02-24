@@ -1,8 +1,8 @@
-import { auth } from 'firebase-functions/v2';
+import * as functionsV1 from 'firebase-functions/v1';
 import * as admin from 'firebase-admin';
 import { generateId } from '@mma/utils';
 
-export const onUserCreate = auth.user().onCreate(async (user) => {
+export const onUserCreate = functionsV1.auth.user().onCreate(async (user) => {
   const db = admin.firestore();
   const now = new Date().toISOString();
 
@@ -65,7 +65,7 @@ export const onUserCreate = auth.user().onCreate(async (user) => {
 });
 
 function getAuthProvider(
-  user: admin.auth.UserRecord,
+  user: functionsV1.auth.UserRecord,
 ): 'email' | 'google' | 'apple' {
   const providerData = user.providerData;
   if (providerData.some((p) => p.providerId === 'google.com')) return 'google';
