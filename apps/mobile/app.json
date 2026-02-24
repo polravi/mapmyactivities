@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "MapMyActivities",
+    "slug": "mapmyactivities",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "scheme": "mapmyactivities",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mapmyactivities.app",
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "Used for voice task creation",
+        "NSMicrophoneUsageDescription": "Used for voice task creation"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mapmyactivities.app",
+      "permissions": ["RECORD_AUDIO"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-apple-authentication",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin"
+    ]
+  }
+}

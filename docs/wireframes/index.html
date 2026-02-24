@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MapMyActivities — Wireframes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f0f0; color: #333; }
+  .controls { position: fixed; top: 0; left: 0; right: 0; background: #1a1a2e; color: #fff; padding: 12px 24px; display: flex; gap: 12px; align-items: center; z-index: 100; }
+  .controls h1 { font-size: 16px; font-weight: 700; margin-right: auto; }
+  .toggle-btn { padding: 8px 20px; border: 2px solid #fff; border-radius: 8px; background: transparent; color: #fff; cursor: pointer; font-weight: 600; font-size: 13px; }
+  .toggle-btn.active { background: #fff; color: #1a1a2e; }
+  .nav-list { position: fixed; left: 0; top: 52px; bottom: 0; width: 200px; background: #fff; border-right: 1px solid #ddd; padding: 16px; overflow-y: auto; z-index: 99; }
+  .nav-list h3 { font-size: 11px; text-transform: uppercase; color: #999; margin: 16px 0 8px; letter-spacing: 1px; }
+  .nav-list a { display: block; padding: 8px 12px; border-radius: 6px; text-decoration: none; color: #555; font-size: 13px; margin-bottom: 2px; }
+  .nav-list a:hover { background: #f5f5f5; color: #000; }
+  .content { margin-left: 200px; margin-top: 52px; padding: 32px; }
+  .device-frame { margin: 0 auto 48px; }
+  .phone-frame { width: 375px; min-height: 812px; border: 3px solid #222; border-radius: 40px; overflow: hidden; background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.15); padding: 44px 0 34px; }
+  .browser-frame { width: 100%; max-width: 1200px; min-height: 700px; border: 2px solid #ccc; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+  .browser-bar { background: #f0f0f0; padding: 8px 16px; display: flex; gap: 6px; align-items: center; border-bottom: 1px solid #ddd; }
+  .browser-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; }
+  .screen-title { font-size: 12px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; text-align: center; }
+  .screen { padding: 16px; }
+  /* Wireframe elements */
+  .wf-header { background: #fafafa; padding: 12px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+  .wf-input { width: 100%; border: 1.5px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 12px; background: #fafafa; font-size: 14px; color: #888; }
+  .wf-btn { display: block; width: 100%; padding: 14px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 14px; margin-bottom: 8px; border: none; cursor: default; }
+  .wf-btn-primary { background: #3b82f6; color: #fff; }
+  .wf-btn-dark { background: #000; color: #fff; }
+  .wf-btn-outline { background: #fff; color: #333; border: 1.5px solid #ddd; }
+  .wf-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: #999; font-size: 13px; }
+  .wf-divider::before, .wf-divider::after { content: ''; flex: 1; height: 1px; background: #ddd; }
+  .wf-card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .wf-tab-bar { display: flex; border-top: 1px solid #eee; padding: 8px 0 4px; }
+  .wf-tab { flex: 1; text-align: center; font-size: 11px; color: #999; padding: 4px; }
+  .wf-tab.active { color: #3b82f6; }
+  .wf-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .wf-progress { height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; margin-top: 6px; }
+  .wf-progress-fill { height: 100%; border-radius: 4px; }
+  .wf-fab { width: 56px; height: 56px; border-radius: 28px; background: #3b82f6; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; position: absolute; bottom: 80px; right: 20px; box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
+  .wf-fab-voice { background: #7c3aed; left: 20px; right: auto; }
+  /* Matrix quadrants */
+  .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .quadrant { border-radius: 10px; padding: 12px; min-height: 160px; }
+  .q1 { background: #fef2f2; border: 1px solid #fecaca; }
+  .q2 { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .q3 { background: #fefce8; border: 1px solid #fef08a; }
+  .q4 { background: #f9fafb; border: 1px solid #e5e7eb; }
+  .q-label { font-size: 11px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 4px; }
+  .q-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .q-task { background: #fff; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  /* Web layout */
+  .web-layout { display: flex; min-height: 660px; }
+  .web-sidebar { width: 220px; background: #fafafa; border-right: 1px solid #eee; padding: 20px; }
+  .web-main { flex: 1; padding: 24px; overflow-y: auto; }
+  .web-nav-item { display: block; padding: 10px 12px; border-radius: 8px; margin-bottom: 4px; font-size: 14px; color: #555; text-decoration: none; }
+  .web-nav-item.active { background: #eff6ff; color: #3b82f6; font-weight: 600; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: #f9fafb; border-radius: 12px; padding: 20px; }
+  .stat-value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>MapMyActivities Wireframes</h1>
+  <button class="toggle-btn active" onclick="showDevice('mobile')" id="btn-mobile">Mobile</button>
+  <button class="toggle-btn" onclick="showDevice('web')" id="btn-web">Web</button>
+</div>
+
+<div class="nav-list">
+  <h3>Mobile Screens</h3>
+  <a href="#m-login" class="mobile-nav">Login</a>
+  <a href="#m-dashboard" class="mobile-nav">Dashboard / Today</a>
+  <a href="#m-create" class="mobile-nav">Task Create</a>
+  <a href="#m-detail" class="mobile-nav">Task Detail</a>
+  <a href="#m-matrix" class="mobile-nav">Matrix View</a>
+  <a href="#m-goals" class="mobile-nav">Goals View</a>
+  <a href="#m-voice" class="mobile-nav">Voice Input</a>
+  <a href="#m-settings" class="mobile-nav">Settings</a>
+  <h3>Web Screens</h3>
+  <a href="#w-login" class="web-nav">Login</a>
+  <a href="#w-dashboard" class="web-nav">Dashboard</a>
+  <a href="#w-matrix" class="web-nav">Matrix View</a>
+  <a href="#w-goals" class="web-nav">Goals View</a>
+  <a href="#w-create" class="web-nav">Task Create</a>
+  <a href="#w-settings" class="web-nav">Settings</a>
+</div>
+
+<div class="content">
+  <!-- ==================== MOBILE SCREENS ==================== -->
+  <div id="mobile-screens">
+
+    <div id="m-login" class="device-frame">
+      <p class="screen-title">Mobile — Login</p>
+      <div class="phone-frame">
+        <div class="screen" style="display:flex;flex-direction:column;justify-content:center;min-height:700px;padding:24px">
+          <h2 style="text-align:center;font-size:28px;font-weight:800;margin-bottom:32px">MapMyActivities</h2>
+          <div class="wf-input">Email</div>
+          <div class="wf-input">Password</div>
+          <div class="wf-btn wf-btn-primary">Sign In</div>
+          <div class="wf-divider">or</div>
+          <div class="wf-btn wf-btn-outline">Continue with Google</div>
+          <div class="wf-btn wf-btn-dark">Continue with Apple</div>
+          <p style="text-align:center;margin-top:16px;font-size:13px;color:#3b82f6">Don't have an account? <b>Sign Up</b></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-dashboard" class="device-frame">
+      <p class="screen-title">Mobile — Dashboard / Today</p>
+      <div class="phone-frame" style="position:relative">
+        <div class="wf-header">
+          <div><div style="font-size:18px;font-weight:700">Today</div><div style="font-size:12px;color:#999">Sunday, February 15</div></div>
+          <div style="width:32px;height:32px;border-radius:16px;background:#e5e7eb"></div>
+        </div>
+        <div class="screen">
+          <div style="display:flex;gap:8px;margin-bottom:16px">
+            <div style="flex:1;background:#eff6ff;border-radius:10px;padding:12px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:#3b82f6">3/7</div>
+              <div style="font-size:10px;color:#666">Done Today</div>
+            </div>
+            <div style="flex:1;background:#f0fdf4;border-radius:10px;padding:12px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:#22c55e">2/5</div>
+              <div style="font-size:10px;color:#666">Goals</div>
+            </div>
+          </div>
+          <div class="wf-card"><div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;border-radius:10px;border:2px solid #22c55e;background:#22c55e"></div><s style="color:#999">Morning run</s> <span class="wf-badge" style="background:#dcfce7;color:#166534;margin-left:auto">Done</span></div></div>
+          <div class="wf-card"><div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;border-radius:10px;border:2px solid #ddd"></div>Buy groceries <span class="wf-badge" style="background:#fee2e2;color:#991b1b;margin-left:auto">High</span></div></div>
+          <div class="wf-card"><div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;border-radius:10px;border:2px solid #ddd"></div>Call dentist <span class="wf-badge" style="background:#dbeafe;color:#1e40af;margin-left:auto">Medium</span></div></div>
+          <div class="wf-card"><div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;border-radius:10px;border:2px solid #ddd"></div>Prepare presentation <span class="wf-badge" style="background:#fee2e2;color:#991b1b;margin-left:auto">High</span></div></div>
+          <div class="wf-card"><div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;border-radius:10px;border:2px solid #22c55e;background:#22c55e"></div><s style="color:#999">Take vitamins</s></div></div>
+        </div>
+        <div class="wf-fab">+</div>
+        <div class="wf-fab wf-fab-voice">🎤</div>
+        <div style="position:absolute;bottom:0;left:0;right:0">
+          <div class="wf-tab-bar">
+            <div class="wf-tab active">📋<br>Today</div>
+            <div class="wf-tab">⊞<br>Matrix</div>
+            <div class="wf-tab">🎯<br>Goals</div>
+            <div class="wf-tab">⚙️<br>Settings</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-create" class="device-frame">
+      <p class="screen-title">Mobile — Task Create</p>
+      <div class="phone-frame">
+        <div class="wf-header"><span style="color:#3b82f6">Cancel</span> <b>New Task</b> <span style="color:#3b82f6;font-weight:600">Save</span></div>
+        <div class="screen">
+          <div class="wf-input" style="font-size:16px;padding:14px">Task title *</div>
+          <div class="wf-input" style="min-height:80px">Description (optional)</div>
+          <p style="font-size:12px;font-weight:600;color:#666;margin:12px 0 6px">Priority</p>
+          <div style="display:flex;gap:8px;margin-bottom:16px">
+            <div style="flex:1;background:#f3f4f6;text-align:center;padding:10px;border-radius:8px;font-size:13px">Low</div>
+            <div style="flex:1;background:#3b82f6;color:#fff;text-align:center;padding:10px;border-radius:8px;font-size:13px;font-weight:600">Medium</div>
+            <div style="flex:1;background:#f3f4f6;text-align:center;padding:10px;border-radius:8px;font-size:13px">High</div>
+          </div>
+          <p style="font-size:12px;font-weight:600;color:#666;margin:12px 0 6px">Quadrant <span style="color:#7c3aed;font-size:10px">AI suggested</span></p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px">
+            <div style="border:1px solid #fecaca;border-radius:8px;padding:10px;font-size:11px"><span style="color:#ef4444">●</span> Q1 - Do First</div>
+            <div style="border:2px solid #3b82f6;border-radius:8px;padding:10px;font-size:11px;background:#eff6ff"><span style="color:#3b82f6">●</span> Q2 - Schedule <span style="background:#f3e8ff;color:#7c3aed;font-size:9px;padding:1px 4px;border-radius:4px">AI</span></div>
+            <div style="border:1px solid #fef08a;border-radius:8px;padding:10px;font-size:11px"><span style="color:#eab308">●</span> Q3 - Delegate</div>
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:10px;font-size:11px"><span style="color:#9ca3af">●</span> Q4 - Eliminate</div>
+          </div>
+          <div class="wf-input">Tags (comma-separated)</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-detail" class="device-frame">
+      <p class="screen-title">Mobile — Task Detail</p>
+      <div class="phone-frame">
+        <div class="wf-header"><span style="color:#3b82f6">← Back</span> <b>Task Details</b> <span style="color:#3b82f6">Edit</span></div>
+        <div class="screen">
+          <h2 style="font-size:22px;font-weight:700;margin-bottom:8px">Buy groceries</h2>
+          <div style="display:flex;gap:6px;margin-bottom:16px">
+            <span class="wf-badge" style="background:#dbeafe;color:#1e40af">In Progress</span>
+            <span class="wf-badge" style="background:#fef2f2;color:#991b1b">● Q1 - Do First</span>
+          </div>
+          <div style="margin-bottom:16px">
+            <p style="font-size:12px;color:#999;margin-bottom:4px">Description</p>
+            <p style="font-size:14px">Get organic produce from the farmer's market</p>
+          </div>
+          <div style="display:flex;gap:24px;margin-bottom:16px">
+            <div><p style="font-size:12px;color:#999">Priority</p><p>High</p></div>
+            <div><p style="font-size:12px;color:#999">Due</p><p>Tomorrow</p></div>
+            <div><p style="font-size:12px;color:#999">Goal</p><p>Weekly</p></div>
+          </div>
+          <div style="margin-bottom:16px">
+            <p style="font-size:12px;color:#999;margin-bottom:6px">Tags</p>
+            <span class="wf-badge" style="background:#f3f4f6;color:#555;margin-right:4px">groceries</span>
+            <span class="wf-badge" style="background:#f3f4f6;color:#555">health</span>
+          </div>
+          <div class="wf-btn wf-btn-primary" style="margin-top:24px">Mark as Done</div>
+          <div class="wf-btn" style="background:#fee2e2;color:#991b1b">Delete</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-matrix" class="device-frame">
+      <p class="screen-title">Mobile — Matrix View</p>
+      <div class="phone-frame">
+        <div class="wf-header"><b>Eisenhower Matrix</b></div>
+        <div class="screen">
+          <div class="matrix-grid">
+            <div class="quadrant q1">
+              <div class="q-label"><div class="q-dot" style="background:#ef4444"></div>Q1 Do First</div>
+              <div class="q-task">Fix server crash</div>
+              <div class="q-task">Submit tax docs</div>
+            </div>
+            <div class="quadrant q2">
+              <div class="q-label"><div class="q-dot" style="background:#3b82f6"></div>Q2 Schedule</div>
+              <div class="q-task">Read industry report</div>
+              <div class="q-task">Plan Q2 goals</div>
+              <div class="q-task">Learn TypeScript</div>
+            </div>
+            <div class="quadrant q3">
+              <div class="q-label"><div class="q-dot" style="background:#eab308"></div>Q3 Delegate</div>
+              <div class="q-task">Reply to emails</div>
+            </div>
+            <div class="quadrant q4">
+              <div class="q-label"><div class="q-dot" style="background:#9ca3af"></div>Q4 Eliminate</div>
+              <div class="q-task" style="opacity:0.6">Browse social media</div>
+            </div>
+          </div>
+          <div style="margin-top:16px">
+            <p style="font-size:13px;font-weight:600;color:#666;margin-bottom:8px">Unassigned (2)</p>
+            <div class="wf-card" style="padding:10px;font-size:13px">Organize desk</div>
+            <div class="wf-card" style="padding:10px;font-size:13px">Call plumber</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-goals" class="device-frame">
+      <p class="screen-title">Mobile — Goals View</p>
+      <div class="phone-frame">
+        <div class="wf-header"><b>Goals</b></div>
+        <div style="display:flex;border-bottom:1px solid #eee">
+          <div class="wf-tab">Daily</div>
+          <div class="wf-tab active" style="border-bottom:2px solid #3b82f6">Weekly</div>
+          <div class="wf-tab">Monthly</div>
+          <div class="wf-tab">Yearly</div>
+        </div>
+        <div class="screen">
+          <div class="wf-card">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:14px">Exercise 5 times</b><span style="font-size:13px;color:#666">3 / 5</span></div>
+            <div class="wf-progress"><div class="wf-progress-fill" style="width:60%;background:#3b82f6"></div></div>
+          </div>
+          <div class="wf-card">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:14px">Read 2 chapters</b><span style="font-size:13px;color:#666">2 / 2</span></div>
+            <div class="wf-progress"><div class="wf-progress-fill" style="width:100%;background:#22c55e"></div></div>
+          </div>
+          <div class="wf-card">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:14px">Meal prep</b><span style="font-size:13px;color:#666">1 / 3</span></div>
+            <div class="wf-progress"><div class="wf-progress-fill" style="width:33%;background:#9ca3af"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-voice" class="device-frame">
+      <p class="screen-title">Mobile — Voice Input</p>
+      <div class="phone-frame" style="position:relative;background:#00000066">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;padding:24px">
+          <div style="text-align:center;margin-bottom:16px">
+            <div style="width:80px;height:80px;border-radius:40px;background:#7c3aed;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 0 8px rgba(124,58,237,0.2)">🎤</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:6px"><div style="width:8px;height:8px;border-radius:4px;background:#ef4444"></div><span style="font-size:13px;color:#666">Listening...</span></div>
+          </div>
+          <div style="background:#f9fafb;border-radius:12px;padding:16px;margin-bottom:16px;min-height:60px">
+            <p style="font-size:14px;color:#333">"Remind me to call the dentist tomorrow"</p>
+          </div>
+          <div style="background:#f0fdf4;border-radius:12px;padding:16px;margin-bottom:16px">
+            <p style="font-size:11px;font-weight:600;color:#166534;margin-bottom:8px">Parsed Task</p>
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="color:#666">Title</span><span>Call the dentist</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="color:#666">Due</span><span>Tomorrow</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:#666">Priority</span><span>Medium</span></div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <div class="wf-btn wf-btn-outline" style="flex:1">Cancel</div>
+            <div class="wf-btn wf-btn-primary" style="flex:1">Save</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="m-settings" class="device-frame">
+      <p class="screen-title">Mobile — Settings</p>
+      <div class="phone-frame">
+        <div class="wf-header"><b>Settings</b></div>
+        <div class="screen">
+          <div style="text-align:center;padding:20px 0;border-bottom:1px solid #eee;margin-bottom:16px">
+            <div style="width:64px;height:64px;border-radius:32px;background:#e5e7eb;margin:0 auto 8px"></div>
+            <p style="font-weight:600">Jane Doe</p>
+            <p style="font-size:13px;color:#999">jane@example.com</p>
+            <span class="wf-badge" style="background:#dbeafe;color:#1e40af;margin-top:6px">Free Plan</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f3f4f6"><span>Push Notifications</span><div style="width:44px;height:24px;border-radius:12px;background:#3b82f6"></div></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f3f4f6"><span>Voice Auto-Stop</span><div style="width:44px;height:24px;border-radius:12px;background:#3b82f6"></div></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f3f4f6"><span>Theme</span><span style="color:#999">System</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f3f4f6"><span>Default View</span><span style="color:#999">Today</span></div>
+          <div style="text-align:center;padding:20px 0;margin-top:16px"><span style="color:#ef4444;font-weight:600">Sign Out</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== WEB SCREENS ==================== -->
+  <div id="web-screens" class="hidden">
+
+    <div id="w-login" class="device-frame">
+      <p class="screen-title">Web — Login</p>
+      <div class="browser-frame">
+        <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><span style="margin-left:12px;font-size:12px;color:#999">mapmyactivities.app/login</span></div>
+        <div style="display:flex;align-items:center;justify-content:center;min-height:660px;background:#f9fafb">
+          <div style="width:400px;background:#fff;border-radius:16px;padding:40px;box-shadow:0 2px 12px rgba(0,0,0,0.08)">
+            <h2 style="text-align:center;font-size:24px;font-weight:800;margin-bottom:28px">MapMyActivities</h2>
+            <div class="wf-input">Email</div>
+            <div class="wf-input">Password</div>
+            <div class="wf-btn wf-btn-primary">Sign In</div>
+            <div class="wf-divider">or</div>
+            <div class="wf-btn wf-btn-outline">Continue with Google</div>
+            <div class="wf-btn wf-btn-dark">Continue with Apple</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="w-dashboard" class="device-frame">
+      <p class="screen-title">Web — Dashboard</p>
+      <div class="browser-frame">
+        <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><span style="margin-left:12px;font-size:12px;color:#999">mapmyactivities.app/dashboard</span></div>
+        <div class="web-layout">
+          <div class="web-sidebar">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:24px">MapMyActivities</h2>
+            <div class="web-nav-item active">📋 Dashboard</div>
+            <div class="web-nav-item">⊞ Matrix</div>
+            <div class="web-nav-item">🎯 Goals</div>
+            <div class="web-nav-item">⚙️ Settings</div>
+            <div class="wf-btn wf-btn-primary" style="margin-top:24px">+ New Task</div>
+          </div>
+          <div class="web-main">
+            <h1 style="font-size:22px;font-weight:700;margin-bottom:20px">Dashboard</h1>
+            <div class="stats-grid">
+              <div class="stat-card"><p style="font-size:13px;color:#999">Tasks Completed</p><p class="stat-value" style="color:#22c55e">5/12</p></div>
+              <div class="stat-card"><p style="font-size:13px;color:#999">Active Goals</p><p class="stat-value" style="color:#3b82f6">4</p></div>
+              <div class="stat-card"><p style="font-size:13px;color:#999">Unassigned</p><p class="stat-value" style="color:#666">3</p></div>
+            </div>
+            <h2 style="font-size:16px;font-weight:600;margin-bottom:12px">Today's Tasks</h2>
+            <div class="wf-card"><div style="display:flex;align-items:center;gap:10px"><div style="width:18px;height:18px;border-radius:9px;border:2px solid #ddd"></div> Fix production crash <span class="wf-badge" style="background:#fee2e2;color:#991b1b;margin-left:auto">High</span></div></div>
+            <div class="wf-card"><div style="display:flex;align-items:center;gap:10px"><div style="width:18px;height:18px;border-radius:9px;border:2px solid #ddd"></div> Prepare Q1 report <span class="wf-badge" style="background:#fee2e2;color:#991b1b;margin-left:auto">High</span></div></div>
+            <div class="wf-card"><div style="display:flex;align-items:center;gap:10px"><div style="width:18px;height:18px;border-radius:9px;border:2px solid #22c55e;background:#22c55e"></div> <s style="color:#999">Morning standup</s></div></div>
+            <div class="wf-card"><div style="display:flex;align-items:center;gap:10px"><div style="width:18px;height:18px;border-radius:9px;border:2px solid #ddd"></div> Call dentist <span class="wf-badge" style="background:#dbeafe;color:#1e40af;margin-left:auto">Medium</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="w-matrix" class="device-frame">
+      <p class="screen-title">Web — Matrix View</p>
+      <div class="browser-frame">
+        <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><span style="margin-left:12px;font-size:12px;color:#999">mapmyactivities.app/matrix</span></div>
+        <div class="web-layout">
+          <div class="web-sidebar">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:24px">MapMyActivities</h2>
+            <div class="web-nav-item">📋 Dashboard</div>
+            <div class="web-nav-item active">⊞ Matrix</div>
+            <div class="web-nav-item">🎯 Goals</div>
+            <div class="web-nav-item">⚙️ Settings</div>
+            <div style="margin-top:24px;border-top:1px solid #eee;padding-top:16px">
+              <p style="font-size:12px;font-weight:600;color:#999;margin-bottom:8px">UNASSIGNED (3)</p>
+              <div style="background:#f9fafb;border-radius:6px;padding:8px;margin-bottom:4px;font-size:12px;cursor:grab">📎 Organize desk</div>
+              <div style="background:#f9fafb;border-radius:6px;padding:8px;margin-bottom:4px;font-size:12px;cursor:grab">📎 Call plumber</div>
+              <div style="background:#f9fafb;border-radius:6px;padding:8px;margin-bottom:4px;font-size:12px;cursor:grab">📎 Update resume</div>
+            </div>
+          </div>
+          <div class="web-main">
+            <h1 style="font-size:22px;font-weight:700;margin-bottom:20px">Eisenhower Matrix</h1>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="quadrant q1" style="min-height:220px">
+                <div class="q-label" style="font-size:14px"><div class="q-dot" style="background:#ef4444;width:10px;height:10px"></div>Q1 — Do First</div>
+                <p style="font-size:11px;color:#999;margin-bottom:12px">Urgent & Important</p>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Fix production crash <span class="wf-badge" style="background:#fee2e2;color:#991b1b;float:right">High</span></div>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Submit tax documents</div>
+              </div>
+              <div class="quadrant q2" style="min-height:220px">
+                <div class="q-label" style="font-size:14px"><div class="q-dot" style="background:#3b82f6;width:10px;height:10px"></div>Q2 — Schedule</div>
+                <p style="font-size:11px;color:#999;margin-bottom:12px">Not Urgent & Important</p>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Read industry report</div>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Plan quarterly goals</div>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Learn TypeScript</div>
+              </div>
+              <div class="quadrant q3" style="min-height:220px">
+                <div class="q-label" style="font-size:14px"><div class="q-dot" style="background:#eab308;width:10px;height:10px"></div>Q3 — Delegate</div>
+                <p style="font-size:11px;color:#999;margin-bottom:12px">Urgent & Not Important</p>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Reply to vendor emails</div>
+                <div class="q-task" style="padding:12px;font-size:13px;cursor:grab">Schedule team lunch</div>
+              </div>
+              <div class="quadrant q4" style="min-height:220px">
+                <div class="q-label" style="font-size:14px"><div class="q-dot" style="background:#9ca3af;width:10px;height:10px"></div>Q4 — Eliminate</div>
+                <p style="font-size:11px;color:#999;margin-bottom:12px">Not Urgent & Not Important</p>
+                <div class="q-task" style="padding:12px;font-size:13px;opacity:0.6;cursor:grab">Browse social media stats <span style="color:#ef4444;font-size:11px;float:right;cursor:pointer">Discard</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="w-goals" class="device-frame">
+      <p class="screen-title">Web — Goals View</p>
+      <div class="browser-frame">
+        <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><span style="margin-left:12px;font-size:12px;color:#999">mapmyactivities.app/goals</span></div>
+        <div class="web-layout">
+          <div class="web-sidebar">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:24px">MapMyActivities</h2>
+            <div class="web-nav-item">📋 Dashboard</div>
+            <div class="web-nav-item">⊞ Matrix</div>
+            <div class="web-nav-item active">🎯 Goals</div>
+            <div class="web-nav-item">⚙️ Settings</div>
+          </div>
+          <div class="web-main">
+            <h1 style="font-size:22px;font-weight:700;margin-bottom:20px">Goals</h1>
+            <div style="display:flex;gap:4px;background:#f3f4f6;border-radius:10px;padding:4px;width:fit-content;margin-bottom:24px">
+              <div style="padding:8px 16px;border-radius:8px;font-size:13px;color:#666">Daily</div>
+              <div style="padding:8px 16px;border-radius:8px;font-size:13px;background:#fff;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.08)">Weekly</div>
+              <div style="padding:8px 16px;border-radius:8px;font-size:13px;color:#666">Monthly</div>
+              <div style="padding:8px 16px;border-radius:8px;font-size:13px;color:#666">Yearly</div>
+            </div>
+            <div class="wf-card" style="padding:20px;margin-bottom:16px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>Exercise 5 times</b><span style="color:#666">3 / 5</span></div>
+              <div class="wf-progress" style="height:12px"><div class="wf-progress-fill" style="width:60%;background:#3b82f6"></div></div>
+              <p style="font-size:11px;color:#999;margin-top:6px">Active — ends Sun, Feb 21</p>
+            </div>
+            <div class="wf-card" style="padding:20px;margin-bottom:16px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>Read 2 chapters</b><span style="color:#22c55e;font-weight:600">2 / 2 ✓</span></div>
+              <div class="wf-progress" style="height:12px"><div class="wf-progress-fill" style="width:100%;background:#22c55e"></div></div>
+              <p style="font-size:11px;color:#22c55e;margin-top:6px">Completed!</p>
+            </div>
+            <div class="wf-card" style="padding:20px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>Meal prep 3 times</b><span style="color:#666">1 / 3</span></div>
+              <div class="wf-progress" style="height:12px"><div class="wf-progress-fill" style="width:33%;background:#9ca3af"></div></div>
+              <p style="font-size:11px;color:#999;margin-top:6px">Active</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="w-create" class="device-frame">
+      <p class="screen-title">Web — Task Create</p>
+      <div class="browser-frame">
+        <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><span style="margin-left:12px;font-size:12px;color:#999">mapmyactivities.app/task/create</span></div>
+        <div class="web-layout">
+          <div class="web-sidebar">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:24px">MapMyActivities</h2>
+            <div class="web-nav-item">📋 Dashboard</div>
+            <div class="web-nav-item">⊞ Matrix</div>
+            <div class="web-nav-item">🎯 Goals</div>
+            <div class="web-nav-item">⚙️ Settings</div>
+          </div>
+          <div class="web-main" style="max-width:600px">
+            <h1 style="font-size:22px;font-weight:700;margin-bottom:20px">New Task</h1>
+            <label style="font-size:13px;font-weight:600;color:#555;display:block;margin-bottom:4px">Title *</label>
+            <div class="wf-input">What needs to be done?</div>
+            <label style="font-size:13px;font-weight:600;color:#555;display:block;margin-bottom:4px">Description</label>
+            <div class="wf-input" style="min-height:80px">Add details...</div>
+            <label style="font-size:13px;font-weight:600;color:#555;display:block;margin-bottom:8px">Priority</label>
+            <div style="display:flex;gap:8px;margin-bottom:20px">
+              <div style="flex:1;background:#f3f4f6;text-align:center;padding:10px;border-radius:8px;font-size:14px">Low</div>
+              <div style="flex:1;background:#3b82f6;color:#fff;text-align:center;padding:10px;border-radius:8px;font-size:14px;font-weight:600">Medium</div>
+              <div style="flex:1;background:#f3f4f6;text-align:center;padding:10px;border-radius:8px;font-size:14px">High</div>
+            </div>
+            <label style="font-size:13px;font-weight:600;color:#555;display:block;margin-bottom:8px">Quadrant</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
+              <div style="border:1px solid #fecaca;border-radius:8px;padding:12px;font-size:13px"><span style="color:#ef4444">●</span> Q1 - Do First</div>
+              <div style="border:2px solid #3b82f6;border-radius:8px;padding:12px;font-size:13px;background:#eff6ff"><span style="color:#3b82f6">●</span> Q2 - Schedule</div>
+              <div style="border:1px solid #fef08a;border-radius:8px;padding:12px;font-size:13px"><span style="color:#eab308">●</span> Q3 - Delegate</div>
+              <div style="border:1px solid #e5e7eb;border-radius:8px;padding:12px;font-size:13px"><span style="color:#9ca3af">●</span> Q4 - Eliminate</div>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:24px">
+              <div class="wf-btn wf-btn-outline" style="flex:1">Cancel</div>
+              <div class="wf-btn wf-btn-primary" style="flex:1">Save Task</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="w-settings" class="device-frame">
+      <p class="screen-title">Web — Settings</p>
+      <div class="browser-frame">
+        <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><span style="margin-left:12px;font-size:12px;color:#999">mapmyactivities.app/settings</span></div>
+        <div class="web-layout">
+          <div class="web-sidebar">
+            <h2 style="font-size:18px;font-weight:700;margin-bottom:24px">MapMyActivities</h2>
+            <div class="web-nav-item">📋 Dashboard</div>
+            <div class="web-nav-item">⊞ Matrix</div>
+            <div class="web-nav-item">🎯 Goals</div>
+            <div class="web-nav-item active">⚙️ Settings</div>
+          </div>
+          <div class="web-main" style="max-width:600px">
+            <h1 style="font-size:22px;font-weight:700;margin-bottom:20px">Settings</h1>
+            <div class="wf-card" style="padding:20px;margin-bottom:20px">
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">Profile</h3>
+              <div style="margin-bottom:12px"><p style="font-size:12px;color:#999">Name</p><p>Jane Doe</p></div>
+              <div style="margin-bottom:12px"><p style="font-size:12px;color:#999">Email</p><p>jane@example.com</p></div>
+              <div><p style="font-size:12px;color:#999">Auth Provider</p><p>Google</p></div>
+            </div>
+            <div class="wf-card" style="padding:20px;margin-bottom:20px">
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">Preferences</h3>
+              <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f3f4f6"><span>Theme</span><span style="color:#999">System ▾</span></div>
+              <div style="display:flex;justify-content:space-between;padding:10px 0"><span>Default View</span><span style="color:#999">Today ▾</span></div>
+            </div>
+            <div class="wf-card" style="padding:20px;margin-bottom:20px">
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:12px">Subscription</h3>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><p style="font-weight:600">Free Plan</p><p style="font-size:13px;color:#999">50 tasks, 10 AI/day</p></div>
+                <div class="wf-btn wf-btn-primary" style="width:auto;padding:10px 20px">Upgrade to Pro</div>
+              </div>
+            </div>
+            <div style="text-align:center;padding:16px"><span style="color:#ef4444;font-weight:600;cursor:pointer">Sign Out</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showDevice(device) {
+  document.getElementById('mobile-screens').classList.toggle('hidden', device !== 'mobile');
+  document.getElementById('web-screens').classList.toggle('hidden', device !== 'web');
+  document.getElementById('btn-mobile').classList.toggle('active', device === 'mobile');
+  document.getElementById('btn-web').classList.toggle('active', device === 'web');
+  document.querySelectorAll('.mobile-nav').forEach(el => el.style.display = device === 'mobile' ? '' : 'none');
+  document.querySelectorAll('.web-nav').forEach(el => el.style.display = device === 'web' ? '' : 'none');
+}
+</script>
+</body>
+</html>

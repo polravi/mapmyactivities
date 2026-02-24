@@ -1,0 +1,22 @@
+{
+  "name": "@mma/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@mma/types": "workspace:*",
+    "firebase": "^11.1.0"
+  },
+  "devDependencies": {
+    "@mma/config": "workspace:*",
+    "vitest": "^2.1.8",
+    "typescript": "^5.7.3"
+  }
+}
