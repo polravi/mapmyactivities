@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "1034754138696",
+    "project_number": "ff",
     "project_id": "mapmyactivities",
     "storage_bucket": "mapmyactivities.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1034754138696:android:70fd77635afe974e00ee7d",
+        "mobilesdk_app_id": "1:dd:android:ff",
         "android_client_info": {
           "package_name": "com.mapmyactivities.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1034754138696-cc9fq3bgo9a3qs301bapdb0pe14njrph.apps.googleusercontent.com",
+          "client_id": "ss-d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDLyEqWVSB7XjPq3unYF9T2VzwUFXeN6pQ"
+          "current_key": "sd"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1034754138696-cc9fq3bgo9a3qs301bapdb0pe14njrph.apps.googleusercontent.com",
+              "client_id": "dd-dd.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1034754138696-dke1m1unn7itte8v8kq9tosvfd0m1uga.apps.googleusercontent.com",
+              "client_id": "ff-ff.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.mapmyactivities.app"
