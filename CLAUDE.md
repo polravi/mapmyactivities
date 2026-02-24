@@ -37,6 +37,29 @@
 - `packages/api-client/` — API client for Cloud Functions
 - `packages/config/` — Shared ESLint, TSConfig, Prettier configs
 
+### SOLID Principles — enforced on every implementation
+- **S — Single Responsibility**: Every function, hook, component, and Cloud Function does exactly one thing. Split if a unit handles multiple concerns.
+- **O — Open/Closed**: Extend behaviour via new functions/components, not by modifying existing stable ones. Use composition over mutation.
+- **L — Liskov Substitution**: Subtypes and overrides must honour the contract of what they replace. No silent behavioural surprises.
+- **I — Interface Segregation**: Prefer small, focused prop interfaces and Zod schemas. Never pass a large object when only one field is needed.
+- **D — Dependency Inversion**: Business logic must not depend on concrete implementations (Firestore, Firebase Auth). Depend on abstractions — pass service functions as arguments or use hooks as the boundary.
+
+### DRY — Don't Repeat Yourself
+- If the same logic appears in more than one place, extract it into `packages/utils/` (pure logic) or a shared hook.
+- Never duplicate Zod schemas or TypeScript types — derive variants with `.extend()`, `.pick()`, `.omit()`, or `.partial()`.
+- Reuse shared UI components from `packages/ui/` before creating new ones.
+
+### Unit Tests — mandatory for every new function
+- **Every new function, utility, hook, or Cloud Function method must have a corresponding unit test** written in the same PR/commit.
+- Test file location mirrors source:
+  - `packages/utils/src/foo.ts` → `packages/utils/__tests__/foo.test.ts`
+  - `packages/store/src/fooStore.ts` → `packages/store/__tests__/fooStore.test.ts`
+  - `apps/functions/src/bar/baz.ts` → `apps/functions/__tests__/bar/baz.test.ts`
+- Tests must cover: happy path, edge cases, and error/failure cases.
+- Use `describe` blocks named after the function, `it` blocks named after the scenario.
+- Mock external dependencies (Firestore, Firebase Auth, Claude API) — unit tests must not hit the network.
+- Run tests with `pnpm test` before every commit. Never commit with failing tests.
+
 ### Testing
 - BDD-first: Gherkin specs in `specs/features/` written before implementation
 - Minimum 80% coverage on shared packages
