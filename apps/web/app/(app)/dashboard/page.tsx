@@ -18,7 +18,7 @@ function TaskRow({ task, userId }: { task: Task; userId: string }) {
   }
 
   return (
-    <div className="bg-white rounded-lg p-4 shadow-sm flex items-center gap-3 group">
+    <div className="bg-white rounded-lg p-4 shadow-sm flex items-center gap-3">
       <button
         className={`w-5 h-5 rounded-full border-2 flex-shrink-0 transition-colors ${
           task.status === 'done'
@@ -55,8 +55,8 @@ function TaskRow({ task, userId }: { task: Task; userId: string }) {
         {task.priority}
       </span>
 
-      {/* Edit / Delete — visible on hover */}
-      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* Edit / Delete */}
+      <div className="flex gap-1">
         <Link
           href={`/task/${task.id}/edit`}
           className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-700"
